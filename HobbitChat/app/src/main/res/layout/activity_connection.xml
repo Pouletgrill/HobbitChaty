@@ -5,7 +5,76 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".ConnectionActivity">
 
-    <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
 
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:hint="Name"
+        android:ems="10"
+        android:id="@+id/ET_Username"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <RadioButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="La Comté"
+        android:id="@+id/RB_Comte"
+        android:layout_marginTop="43dp"
+        android:layout_below="@+id/ET_Username"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <RadioButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Mordor"
+        android:id="@+id/RB_Mordor"
+        android:layout_below="@+id/RB_Comte"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <RadioButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Isengard"
+        android:id="@+id/RB_Isengard"
+        android:layout_below="@+id/RB_Mordor"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:hint="Port UDP"
+        android:ems="10"
+        android:id="@+id/ET_Port"
+        android:layout_alignTop="@+id/RB_Comte"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Entrer"
+        android:id="@+id/BTN_Enter"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/ET_Port"
+        android:layout_toStartOf="@+id/ET_Port" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Effacer"
+        android:id="@+id/BTN_Effacer"
+        android:layout_marginRight="44dp"
+        android:layout_marginEnd="44dp"
+        android:layout_alignTop="@+id/BTN_Enter"
+        android:layout_alignRight="@+id/ET_Port"
+        android:layout_alignEnd="@+id/ET_Port" />
 </RelativeLayout>
