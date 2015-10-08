@@ -16,13 +16,14 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/editText" />
+            android:id="@+id/convoText"
+            android:editable="false"/>
     </ScrollView>
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/editText2"
+        android:id="@+id/sendText"
         android:layout_below="@+id/scrollView"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -34,11 +35,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/SendButtonText"
-        android:id="@+id/button"
-        android:layout_below="@+id/editText2"
+        android:id="@+id/BTN_Send"
+        android:layout_below="@+id/sendText"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/editText2"
-        android:layout_alignEnd="@+id/editText2" />
+        android:layout_alignRight="@+id/sendText"
+        android:layout_alignEnd="@+id/sendText"
+        android:onClick=""/>
 
 </RelativeLayout>
