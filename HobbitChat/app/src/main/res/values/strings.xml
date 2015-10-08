@@ -3,4 +3,12 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="Effacer">Effacer</string>
+    <string name="Entrer">Entrer</string>
+    <string name="hintname">Nom</string>
+    <string name="hintProt">Port UDP</string>
+    <string name="T_Invalide_Name">Erreur veuillez Entrer un Username</string>
+    <string name="T_Invalide_Port">Erreur veuillez Entrer un port valide</string>
+
+
 </resources>
