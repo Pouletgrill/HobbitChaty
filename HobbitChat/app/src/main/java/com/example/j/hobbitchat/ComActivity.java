@@ -1,5 +1,7 @@
 package com.example.j.hobbitchat;
 
+import android.content.Context;
+import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,9 +21,11 @@ public class ComActivity extends AppCompatActivity {
     EditText sendText;
     Button BTN_Envoyer;
 
-    static final String DESTINATION = "127.0.0.1";
+    static final String DESTINATION = "230.0.0.2";
     static final int LONG_TAMPON = 1024;
     static final int PORT = 6000;
+    MulticastSocket soc;
+    InetAddress adrMulticast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,22 +36,40 @@ public class ComActivity extends AppCompatActivity {
         sendText = (EditText) findViewById(R.id.sendText);
         BTN_Envoyer = (Button) findViewById(R.id.BTN_Send);
 
+        WifiManager wifi = (WifiManager)getSystemService(Context.WIFI_SERVICE);
+        if (wifi != null) {
+            WifiManager.MulticastLock lock = wifi.createMulticastLock("HobbitChat");
+            lock.acquire();
+        }
+
+        try
+        {
+            adrMulticast = InetAddress.getByName(DESTINATION);
+            soc = new MulticastSocket();
+        }catch (Exception ex)
+        {
+            System.err.println("Creation du InetMulticast "+ex.getMessage());
+        }
+
+
         UDP_Ecouteur ecouteur = new UDP_Ecouteur();
         ecouteur.execute();
 
         BTN_Envoyer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //if (sendText.getText().length() > 0) {
-                //UDP_Envoyeur ;
-                //}
+                if (sendText.getText().length() > 0)
+                {
+                    UDP_Envoyeur() ;
+                    sendText.setText("");
+                }
             }
         });
     }
 
-    private class UDP_Ecouteur extends AsyncTask<Void, Void, Void> {
+    private class UDP_Ecouteur extends AsyncTask<Void, String, Void> {
         byte tampon[] = new byte[LONG_TAMPON];
-        DatagramSocket socket;
+        MulticastSocket socket;
         DatagramPacket paquet;
 
         @Override
@@ -56,35 +78,31 @@ public class ComActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),
                     "Début du traitement asynchrone",
                     Toast.LENGTH_SHORT).show();
-            try
-            {
+            try {
                 paquet = new DatagramPacket(tampon, 0, LONG_TAMPON);
-                socket = new DatagramSocket(PORT);
-            }
-            catch (Exception e)
+                socket = new MulticastSocket(PORT);
+                socket.joinGroup(adrMulticast);
+            }catch (Exception ex)
             {
-                System.err.println("Houston we have a problem");
-                e.printStackTrace();
-                System.exit(1);
+                System.err.println("pre execute ecouteur "+ex.getMessage());
             }
+
         }
 
         @Override
         protected Void doInBackground(Void... args) {
-            try {
-
-
+            try
+            {
                 while (true) {
-                    socket.receive(paquet);
-
+                    socket.receive((paquet));
                     String chaine = new String(paquet.getData(),
                             paquet.getOffset(), paquet.getLength() );
 
-                    System.out.println("Message: " + chaine);
-                    System.out.println("Recu de " + paquet.getSocketAddress());
-                    System.out.println();
+                    publishProgress(chaine);
                 }
-            } catch( Exception e) {
+            }
+            catch (Exception e)
+            {
                 System.err.println("Houston we have a problem");
                 e.printStackTrace();
                 System.exit(1);
@@ -93,14 +111,20 @@ public class ComActivity extends AppCompatActivity {
         }
 
         @Override
-        protected void onProgressUpdate(Void... valeurs) {
+        protected void onProgressUpdate(String... valeurs) {
             super.onProgressUpdate();
+            convosText.append(valeurs[0].toString()+"\n");
 
         }
 
         @Override
         protected void onPostExecute(Void resultat) {
-
+            try {
+                socket.leaveGroup(adrMulticast);
+            }catch (Exception ex)
+            {
+                System.err.println("Post execute ecouteur "+ex.getMessage());
+            }
         }
     }
 
@@ -108,25 +132,23 @@ public class ComActivity extends AppCompatActivity {
         new Thread( new Runnable() {
             // le code qui peut ralentir l'application est exécuté
             // dans un thread secondaire
-            String Chaine = "Text123";
+            String Chaine = sendText.getText().toString();
             public void run() {
                 try {
-                    //Toast.makeText(getApplicationContext(),"111",Toast.LENGTH_LONG).show();
+
                     byte tampon[] = Chaine.getBytes();
 
-                    InetAddress adresse = InetAddress.getByName(DESTINATION);
-
                     DatagramPacket paquet =
-                            new DatagramPacket(tampon, 0, tampon.length, adresse, PORT);
+                            new DatagramPacket(tampon, 0, tampon.length, adrMulticast, PORT);
 
-                    DatagramSocket socket = new DatagramSocket();
+                   MulticastSocket socket = new MulticastSocket();
                     socket.send(paquet);
                 } catch (Exception e) {
 
-                    System.err.println(e.getMessage());
+                    System.err.println("Envoyeur "+ e.getMessage());
 
                     e.printStackTrace();
-                    System.exit(1);
+                    //System.exit(1);
                 }
             }
         }).start();
