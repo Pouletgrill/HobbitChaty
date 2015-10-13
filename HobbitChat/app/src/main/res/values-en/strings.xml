@@ -11,7 +11,7 @@
     <string name="hintProt">UDP Port </string>
     <string name="T_Invalide_Name">Error please enter a Username</string>
     <string name="T_Invalide_Port">Error please enter a Valide Port</string>
-
+    <string name="Afficher_Les_IP">Show IP Adress</string>
 
     <string name="title_activity_com">ComActivity</string>
     <string name="SendButtonText">Send</string>

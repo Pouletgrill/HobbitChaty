@@ -10,7 +10,7 @@
     <string name="hintProt">Port UDP</string>
     <string name="T_Invalide_Name">Erreur veuillez Entrer un Username</string>
     <string name="T_Invalide_Port">Erreur veuillez Entrer un port valide</string>
-
+    <string name="Afficher_Les_IP">Afficher les IP</string>
 
     <string name="title_activity_com">ComActivity</string>
     <string name="SendButtonText">Envoyer</string>

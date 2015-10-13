@@ -10,7 +10,7 @@
     <string name="hintProt">UDP પોર્ટ </string>
     <string name="T_Invalide_Name">વપરાશકર્તા નામ દાખલ કરો ભૂલ</string>
     <string name="T_Invalide_Port">ભૂલ માન્ય પોર્ટ દાખલ કરો</string>
-
+    <string name="Afficher_Les_IP">બતાવો IP adress</string>
 
     <string name="title_activity_com">ComActivity</string>
     <string name="SendButtonText">મોકલી</string>

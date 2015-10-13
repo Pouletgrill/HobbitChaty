@@ -10,7 +10,7 @@
     <string name="hintProt">Puerto UDP</string>
     <string name="T_Invalide_Name">Error por favor Ingrese Nombre de usuario</string>
     <string name="T_Invalide_Port">Error Por favor, introduzca un puerto válido</string>
-
+    <string name="Afficher_Les_IP">Esti de Mexicain</string>
 
     <string name="title_activity_com">ComActivity</string>
     <string name="SendButtonText">Enviar</string>
