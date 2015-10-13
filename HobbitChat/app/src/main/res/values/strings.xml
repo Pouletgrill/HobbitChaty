@@ -3,7 +3,7 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-<<<<<<< HEAD
+
     <string name="Effacer">Effacer</string>
     <string name="Entrer">Entrer</string>
     <string name="hintname">Nom</string>
@@ -12,7 +12,6 @@
     <string name="T_Invalide_Port">Erreur veuillez Entrer un port valide</string>
 
 
-=======
     <string name="title_activity_com">ComActivity</string>
     <string name="SendButtonText">Envoyer</string>
 >>>>>>> origin/master

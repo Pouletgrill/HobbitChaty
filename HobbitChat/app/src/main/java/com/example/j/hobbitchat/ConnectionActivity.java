@@ -12,6 +12,8 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
+import static java.lang.Integer.parseInt;
+
 public class ConnectionActivity extends AppCompatActivity {
 
     Button Enter;
@@ -62,7 +64,7 @@ public class ConnectionActivity extends AppCompatActivity {
                     getResources().getText(R.string.T_Invalide_Name), Toast.LENGTH_SHORT);
             message.show();
         }
-        else if(TB_Port.length() < 1024 || TB_Port.length() > 65535)
+        else if(parseInt(TB_Port.getText().toString()) < 1024 || parseInt(TB_Port.getText().toString()) > 65535)
         {
             Toast message = Toast.makeText( ConnectionActivity.this,
                     getResources().getText(R.string.T_Invalide_Port), Toast.LENGTH_SHORT);
@@ -72,8 +74,8 @@ public class ConnectionActivity extends AppCompatActivity {
         {
             Intent intent = new Intent(this, ComActivity.class);
 
-            intent.putExtra("Username", TB_Name);
-            intent.putExtra("Port", TB_Port);
+            intent.putExtra("Username", TB_Name.getText().toString());
+            intent.putExtra("Port", TB_Port.getText().toString());
 
             startActivity(intent);
         }
