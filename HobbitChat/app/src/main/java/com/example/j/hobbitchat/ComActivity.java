@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 import java.net.*;
@@ -23,6 +24,7 @@ public class ComActivity extends AppCompatActivity {
     EditText convosText;
     EditText sendText;
     Button BTN_Envoyer;
+    CheckBox CB_ip;
     String Username;
     int PORT;
     String DESTINATION;
@@ -38,6 +40,7 @@ public class ComActivity extends AppCompatActivity {
         convosText = (EditText) findViewById(R.id.convoText);
         sendText = (EditText) findViewById(R.id.sendText);
         BTN_Envoyer = (Button) findViewById(R.id.BTN_Send);
+        CB_ip = (CheckBox) findViewById(R.id.CB_IP);
 
         Intent intent = getIntent();
         Username = intent.getStringExtra("Username");
@@ -121,7 +124,17 @@ public class ComActivity extends AppCompatActivity {
         @Override
         protected void onProgressUpdate(String... valeurs) {
             super.onProgressUpdate();
-            convosText.append(valeurs[0].toString()+"\n");
+            String message;
+            if (CB_ip.isChecked())
+            {
+                message = valeurs[0].substring(0, valeurs[0].indexOf(":"))+paquet.getSocketAddress()+
+                ":"+valeurs[0].substring(valeurs[0].lastIndexOf(":")+1);
+            }
+            else
+            {
+                message = valeurs[0];
+            }
+            convosText.append(message+"\n");
 
         }
 
