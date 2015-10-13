@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">HobbitChat</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+
+    <string name="Effacer">Erase</string>
+    <string name="Entrer">Enter</string>
+    <string name="hintname">Name</string>
+    <string name="hintProt">UDP Port </string>
+    <string name="T_Invalide_Name">Error please enter a Username</string>
+    <string name="T_Invalide_Port">Error please enter a Valide Port</string>
+
+
+    <string name="title_activity_com">ComActivity</string>
+    <string name="SendButtonText">Send</string>
+
+
+</resources>

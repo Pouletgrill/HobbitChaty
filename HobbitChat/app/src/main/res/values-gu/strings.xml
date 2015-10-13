@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">HobbitChat</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="Effacer">કાઢી નાખો</string>
+    <string name="Entrer">દાખલ કરો</string>
+    <string name="hintname">નામ</string>
+    <string name="hintProt">UDP પોર્ટ </string>
+    <string name="T_Invalide_Name">વપરાશકર્તા નામ દાખલ કરો ભૂલ</string>
+    <string name="T_Invalide_Port">ભૂલ માન્ય પોર્ટ દાખલ કરો</string>
+
+
+    <string name="title_activity_com">ComActivity</string>
+    <string name="SendButtonText">મોકલી</string>
+
+</resources>
