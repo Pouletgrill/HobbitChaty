@@ -1,6 +1,7 @@
 package com.example.j.hobbitchat;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -15,15 +16,17 @@ import java.net.*;
 
 import java.io.IOException;
 
+import static java.lang.Integer.parseInt;
+
 public class ComActivity extends AppCompatActivity {
 
     EditText convosText;
     EditText sendText;
     Button BTN_Envoyer;
-
-    static final String DESTINATION = "230.0.0.2";
+    String Username;
+    int PORT;
+    String DESTINATION;
     static final int LONG_TAMPON = 1024;
-    static final int PORT = 6000;
     MulticastSocket soc;
     InetAddress adrMulticast;
 
@@ -35,6 +38,11 @@ public class ComActivity extends AppCompatActivity {
         convosText = (EditText) findViewById(R.id.convoText);
         sendText = (EditText) findViewById(R.id.sendText);
         BTN_Envoyer = (Button) findViewById(R.id.BTN_Send);
+
+        Intent intent = getIntent();
+        Username = intent.getStringExtra("Username");
+        PORT = parseInt(intent.getStringExtra("Port"));
+        DESTINATION = intent.getStringExtra("Destination");
 
         WifiManager wifi = (WifiManager)getSystemService(Context.WIFI_SERVICE);
         if (wifi != null) {
@@ -132,7 +140,7 @@ public class ComActivity extends AppCompatActivity {
         new Thread( new Runnable() {
             // le code qui peut ralentir l'application est exécuté
             // dans un thread secondaire
-            String Chaine = sendText.getText().toString();
+            String Chaine = Username+" : "+sendText.getText().toString();
             public void run() {
                 try {
 

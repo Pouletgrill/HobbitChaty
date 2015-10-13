@@ -76,6 +76,18 @@ public class ConnectionActivity extends AppCompatActivity {
 
             intent.putExtra("Username", TB_Name.getText().toString());
             intent.putExtra("Port", TB_Port.getText().toString());
+            if (RB_Comte.isChecked())
+            {
+                intent.putExtra("Destination", "230.0.0.1");
+            }
+            else if (RB_Mordor.isChecked())
+            {
+                intent.putExtra("Destination", "230.0.0.2");
+            }
+            else
+            {
+                intent.putExtra("Destination", "230.0.0.3");
+            }
 
             startActivity(intent);
         }
