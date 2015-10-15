@@ -58,7 +58,7 @@ public class ConnectionActivity extends AppCompatActivity {
 
     public void Envoyer(View v)
     {
-        if(TB_Name.length() <= 0)
+        if(TB_Name.length() < 2 || TB_Name.length() > 8)
         {
             Toast message = Toast.makeText( ConnectionActivity.this,
                     getResources().getText(R.string.T_Invalide_Name), Toast.LENGTH_SHORT);
