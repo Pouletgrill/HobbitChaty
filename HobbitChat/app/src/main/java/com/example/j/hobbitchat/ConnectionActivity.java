@@ -46,6 +46,7 @@ public class ConnectionActivity extends AppCompatActivity {
 
             }
         });
+        //Efface le contenue des texbox
         Effacer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -55,15 +56,17 @@ public class ConnectionActivity extends AppCompatActivity {
             }
         });
     }
-
+    //Cette fonction envoi les informations enregistrer par l'utilisateur
     public void Envoyer(View v)
     {
+        //Verifie la longeur du nom rentré
         if(TB_Name.length() < 2 || TB_Name.length() > 8)
         {
             Toast message = Toast.makeText( ConnectionActivity.this,
                     getResources().getText(R.string.T_Invalide_Name), Toast.LENGTH_SHORT);
             message.show();
         }
+        //Verifie le port entrer soi plus grand que 1024 et plus petit 65535
         else if(parseInt(TB_Port.getText().toString()) < 1024 || parseInt(TB_Port.getText().toString()) > 65535)
         {
             Toast message = Toast.makeText( ConnectionActivity.this,
@@ -73,17 +76,20 @@ public class ConnectionActivity extends AppCompatActivity {
         else
         {
             Intent intent = new Intent(this, ComActivity.class);
-
+            //Envoi le username le port et la destination
             intent.putExtra("Username", TB_Name.getText().toString());
             intent.putExtra("Port", TB_Port.getText().toString());
+            //Le comte est selectionner
             if (RB_Comte.isChecked())
             {
                 intent.putExtra("Destination", "230.0.0.1");
             }
+            //Le Mordor est selectionner
             else if (RB_Mordor.isChecked())
             {
                 intent.putExtra("Destination", "230.0.0.2");
             }
+            //Le Isengard est selectionner
             else
             {
                 intent.putExtra("Destination", "230.0.0.3");
