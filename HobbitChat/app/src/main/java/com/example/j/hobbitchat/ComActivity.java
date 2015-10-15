@@ -72,10 +72,16 @@ public class ComActivity extends AppCompatActivity {
         BTN_Envoyer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (sendText.getText().length() > 0)
+                if (sendText.getText().length()>=1 &&sendText.getText().length()<=60)
                 {
                     UDP_Envoyeur() ;
                     sendText.setText("");
+                }
+                else
+                {
+                    Toast.makeText(getApplicationContext(),
+                            "Le format de la chaine est invalide",
+                            Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -176,28 +182,29 @@ public class ComActivity extends AppCompatActivity {
     }
 
     public void UDP_Envoyeur() {
-        new Thread( new Runnable() {
-            // le code qui peut ralentir l'application est exécuté
-            // dans un thread secondaire
-            String Chaine = Username+" : "+sendText.getText().toString();
-            public void run() {
-                try {
+            new Thread( new Runnable() {
+                // le code qui peut ralentir l'application est exécuté
+                // dans un thread secondaire
 
-                    byte tampon[] = Chaine.getBytes();
+                String Chaine = Username+" : "+sendText.getText().toString();
+                public void run() {
+                    try {
 
-                    DatagramPacket paquet =
-                            new DatagramPacket(tampon, 0, tampon.length, adrMulticast, PORT);
+                        byte tampon[] = Chaine.getBytes();
 
-                   MulticastSocket socket = new MulticastSocket();
-                    socket.send(paquet);
-                } catch (Exception e) {
+                        DatagramPacket paquet =
+                                new DatagramPacket(tampon, 0, tampon.length, adrMulticast, PORT);
 
-                    System.err.println("Envoyeur "+ e.getMessage());
+                       MulticastSocket socket = new MulticastSocket();
+                        socket.send(paquet);
+                    } catch (Exception e) {
 
-                    e.printStackTrace();
-                    //System.exit(1);
+                        System.err.println("Envoyeur "+ e.getMessage());
+
+                        e.printStackTrace();
+                        //System.exit(1);
+                    }
                 }
-            }
-        }).start();
+            }).start();
     }
 }
