@@ -31,6 +31,7 @@ public class ComActivity extends AppCompatActivity {
     static final int LONG_TAMPON = 1024;
     MulticastSocket soc;
     InetAddress adrMulticast;
+    static public Boolean AsyncStarted = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +79,29 @@ public class ComActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        AsyncStarted = false;
+    }
+/*
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        AsyncStarted = false;
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        AsyncStarted = false;
+    }
+*/
+    public Boolean ToujoursVivant()
+    {
+        return AsyncStarted;
+    }
+
     private class UDP_Ecouteur extends AsyncTask<Void, String, Void> {
         byte tampon[] = new byte[LONG_TAMPON];
         MulticastSocket socket;
@@ -93,6 +117,7 @@ public class ComActivity extends AppCompatActivity {
                 paquet = new DatagramPacket(tampon, 0, LONG_TAMPON);
                 socket = new MulticastSocket(PORT);
                 socket.joinGroup(adrMulticast);
+                AsyncStarted = true;
             }catch (Exception ex)
             {
                 System.err.println("pre execute ecouteur "+ex.getMessage());
@@ -104,12 +129,13 @@ public class ComActivity extends AppCompatActivity {
         protected Void doInBackground(Void... args) {
             try
             {
-                while (true) {
+                while (AsyncStarted) {
                     socket.receive((paquet));
                     String chaine = new String(paquet.getData(),
                             paquet.getOffset(), paquet.getLength() );
 
                     publishProgress(chaine);
+
                 }
             }
             catch (Exception e)
@@ -146,6 +172,10 @@ public class ComActivity extends AppCompatActivity {
             {
                 System.err.println("Post execute ecouteur "+ex.getMessage());
             }
+            Toast.makeText(getApplicationContext(),
+                    "Fin traitement asynchrone",
+                    Toast.LENGTH_SHORT).show();
+            AsyncStarted = false;
         }
     }
 
