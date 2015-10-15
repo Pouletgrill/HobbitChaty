@@ -66,16 +66,16 @@ public class ComActivity extends AppCompatActivity {
             System.err.println("Creation du InetMulticast "+ex.getMessage());
         }
 
-        UDP_Ecouteur ecouteur = new UDP_Ecouteur();
+        UDP_Ecouteur ecouteur = new UDP_Ecouteur();//démmarage du Thread Asynchrome
         ecouteur.execute();
 
         BTN_Envoyer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (sendText.getText().length()>=1 &&sendText.getText().length()<=60)
+                if (sendText.getText().length()>=1 &&sendText.getText().length()<=60)//si la chaine est valid
                 {
-                    UDP_Envoyeur() ;
-                    sendText.setText("");
+                    UDP_Envoyeur();
+                    sendText.setText("");//effacer le textbox d'envoie
                 }
                 else
                 {
@@ -92,19 +92,7 @@ public class ComActivity extends AppCompatActivity {
         super.onPause();
         AsyncStarted = false;
     }
-/*
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        AsyncStarted = false;
-    }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        AsyncStarted = false;
-    }
-*/
     public Boolean ToujoursVivant()
     {
         return AsyncStarted;
@@ -116,7 +104,7 @@ public class ComActivity extends AppCompatActivity {
         DatagramPacket paquet;
 
         @Override
-        protected void onPreExecute() {
+        protected void onPreExecute() {//Initialisation pour le thread
         super.onPreExecute();
             try {
                 paquet = new DatagramPacket(tampon, 0, LONG_TAMPON);
@@ -134,11 +122,11 @@ public class ComActivity extends AppCompatActivity {
         protected Void doInBackground(Void... args) {
             try
             {
-                while (AsyncStarted) {
+                while (AsyncStarted) { //continue t'en que le bool na pas été recrée en false par onPause
                     socket.receive((paquet));
                     String chaine = new String(paquet.getData(),
                             paquet.getOffset(), paquet.getLength() );
-
+                    //Publie la chaine pour l'affichage
                     publishProgress(chaine);
 
                 }
@@ -156,23 +144,24 @@ public class ComActivity extends AppCompatActivity {
         protected void onProgressUpdate(String... valeurs) {
             super.onProgressUpdate();
             String message;
-            if (CB_ip.isChecked())
+            if (CB_ip.isChecked())//Si le CheckBox Show IP est coché
             {
-                message = valeurs[0].substring(0, valeurs[0].indexOf(":"))+paquet.getSocketAddress()+
-                ":"+valeurs[0].substring(valeurs[0].lastIndexOf(":")+1);
+                message = valeurs[0].substring(0, valeurs[0].indexOf(":"))+         //prend le text avant les :
+                        paquet.getSocketAddress()+                                  //prend l'adresse IP
+                        ":"+valeurs[0].substring(valeurs[0].lastIndexOf(":") + 1);  //prend le text Après les :
             }
             else
             {
                 message = valeurs[0];
             }
             convosText.append(message+"\n");
-            scroll.fullScroll(ScrollView.FOCUS_DOWN);
+            scroll.fullScroll(ScrollView.FOCUS_DOWN);//scroll automatique
         }
 
         @Override
         protected void onPostExecute(Void resultat) {
             try {
-                socket.leaveGroup(adrMulticast);
+                socket.leaveGroup(adrMulticast);//Quitter le group multiThread
             }catch (Exception ex)
             {
                 System.err.println("Post execute ecouteur "+ex.getMessage());
