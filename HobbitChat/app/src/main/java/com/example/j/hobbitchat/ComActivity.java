@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ScrollView;
 import android.widget.Toast;
 import java.net.*;
 
@@ -21,6 +22,7 @@ import static java.lang.Integer.parseInt;
 
 public class ComActivity extends AppCompatActivity {
 
+    ScrollView scroll;
     EditText convosText;
     EditText sendText;
     Button BTN_Envoyer;
@@ -31,13 +33,14 @@ public class ComActivity extends AppCompatActivity {
     static final int LONG_TAMPON = 1024;
     MulticastSocket soc;
     InetAddress adrMulticast;
-    static public Boolean AsyncStarted = false;
+    public Boolean AsyncStarted = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_com);
 
+        scroll = (ScrollView) findViewById(R.id.scrollView);
         convosText = (EditText) findViewById(R.id.convoText);
         sendText = (EditText) findViewById(R.id.sendText);
         BTN_Envoyer = (Button) findViewById(R.id.BTN_Send);
@@ -62,7 +65,6 @@ public class ComActivity extends AppCompatActivity {
         {
             System.err.println("Creation du InetMulticast "+ex.getMessage());
         }
-
 
         UDP_Ecouteur ecouteur = new UDP_Ecouteur();
         ecouteur.execute();
@@ -110,9 +112,6 @@ public class ComActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
         super.onPreExecute();
-            Toast.makeText(getApplicationContext(),
-                    "Début du traitement asynchrone",
-                    Toast.LENGTH_SHORT).show();
             try {
                 paquet = new DatagramPacket(tampon, 0, LONG_TAMPON);
                 socket = new MulticastSocket(PORT);
@@ -161,7 +160,7 @@ public class ComActivity extends AppCompatActivity {
                 message = valeurs[0];
             }
             convosText.append(message+"\n");
-
+            scroll.fullScroll(ScrollView.FOCUS_DOWN);
         }
 
         @Override
@@ -172,9 +171,6 @@ public class ComActivity extends AppCompatActivity {
             {
                 System.err.println("Post execute ecouteur "+ex.getMessage());
             }
-            Toast.makeText(getApplicationContext(),
-                    "Fin traitement asynchrone",
-                    Toast.LENGTH_SHORT).show();
             AsyncStarted = false;
         }
     }
